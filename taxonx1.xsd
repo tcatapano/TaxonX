@@ -116,6 +116,7 @@
    2013-04-20
    
    added namePart to name
+   added div/@type="other" and div/@otherType
    
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.taxonx.org/schema/v1" xmlns:dc="http://digir.net/schema/conceptual/darwin/core/1.0" xmlns:mods="http://www.loc.gov/mods/v3" targetNamespace="http://www.taxonx.org/schema/v1" elementFormDefault="qualified">
@@ -190,10 +191,11 @@
                <xs:enumeration value="materials_methods"/>
                <xs:enumeration value="multiple"/>
                <xs:enumeration value="synopsis"/>
-               <xs:enumeration value=""/>
+               <xs:enumeration value="other"/>
             </xs:restriction>
          </xs:simpleType>
       </xs:attribute>
+      <xs:attribute name="otherType" use="optional"/>
    </xs:complexType>
    <xs:complexType name="head" mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
