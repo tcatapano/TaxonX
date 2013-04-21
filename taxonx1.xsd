@@ -499,7 +499,6 @@
          <xs:element name="xid" type="xid"/>
          <xs:element name="pb" type="pb"/>
          <xs:element name="figure" type="figure"/>
-         <xs:element name="namePart" type="namePart"/>
       </xs:choice>
       <xs:attributeGroup ref="standardAttrs"/>
       <xs:attribute name="type"/>
