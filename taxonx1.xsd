@@ -330,8 +330,9 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="xmldata">
-      <xs:choice maxOccurs="unbounded">
+      <xs:choice maxOccurs="unbounded">            
          <xs:any namespace="http://digir.net/schema/conceptual/darwin/2003/1.0"/>
+         <xs:any namespace="http://rs.tdwg.org/UBIF/2006/Schema/1.1"/>
       </xs:choice>
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
