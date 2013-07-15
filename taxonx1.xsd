@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 2011-09-08
-   TaxonX version 1.2.2
+<!-- 2013-07-15
+   TaxonX version 1.2.4
    Editors:
    Terry Catapano
    Donat Agosti
@@ -111,9 +111,25 @@
    removed complexType author and made element author type name
    changed treatment back to element so now global again; treatment elements now use ref rather than name
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.taxonx.org/schema/v1" xmlns:dc="http://digir.net/schema/conceptual/darwin/core/1.0" xmlns:mods="http://www.loc.gov/mods/v3" targetNamespace="http://www.taxonx.org/schema/v1" elementFormDefault="qualified">
+<!-- TC
+   version 1.2.3
+   2013-04-20
+   
+   added namePart to name
+   added div/@type="other" and div/@otherType
+   
+-->
+<!-- TC
+   version 1.2.4
+   2013-05-08
+   
+   added http://rs.tdwg.org/UBIF/2006/Schema/1.1 to permitted namespaces in xmldata
+   
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.taxonx.org/schema/v1" xmlns:dc="http://digir.net/schema/conceptual/darwin/core/1.0" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:dwcranks="http://rs.tdwg.org/UBIF/2006/Schema/1.1" targetNamespace="http://www.taxonx.org/schema/v1" elementFormDefault="qualified">
    <xs:import namespace="http://www.loc.gov/mods/v3" schemaLocation="http://www.loc.gov/standards/mods/v3/mods-3-1.xsd"/>
    <xs:import namespace="http://digir.net/schema/conceptual/darwin/2003/1.0" schemaLocation="http://digir.net/schema/conceptual/darwin/manis/1.21/darwin2.xsd"/>
+   <xs:import namespace="http://rs.tdwg.org/UBIF/2006/Schema/1.1" schemaLocation="http://rs.tdwg.org/UBIF/2006/Schema/1.1/DarwinCoreAdditionalTaxonRanks.xsd"/>
    <xs:element name="taxonx">
       <xs:complexType>
          
@@ -183,10 +199,11 @@
                <xs:enumeration value="materials_methods"/>
                <xs:enumeration value="multiple"/>
                <xs:enumeration value="synopsis"/>
-               <xs:enumeration value=""/>
+               <xs:enumeration value="other"/>
             </xs:restriction>
          </xs:simpleType>
       </xs:attribute>
+      <xs:attribute name="otherType" use="optional"/>
    </xs:complexType>
    <xs:complexType name="head" mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -205,6 +222,7 @@
          <xs:element name="xid" type="xid"/>
          <xs:element name="pb" type="pb"/>
          <xs:element name="figure" type="figure"/>
+         <xs:element name="namePart" type="namePart"/>
       </xs:choice>
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
@@ -320,8 +338,8 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="xmldata">
-      <xs:choice maxOccurs="unbounded">
-         <xs:any namespace="http://digir.net/schema/conceptual/darwin/2003/1.0"/>
+      <xs:choice maxOccurs="unbounded">            
+         <xs:any namespace="http://digir.net/schema/conceptual/darwin/2003/1.0 http://rs.tdwg.org/UBIF/2006/Schema/1.1"/>
       </xs:choice>
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
@@ -474,6 +492,17 @@
       </xs:choice>
       <xs:attributeGroup ref="standardAttrs"/>
       <xs:attribute name="type" type="xs:string" use="optional"/>
+   </xs:complexType>
+   <xs:complexType name="namePart" mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+         <xs:element name="xmldata" type="xmldata"/>
+         <xs:element name="xid" type="xid"/>
+         <xs:element name="pb" type="pb"/>
+         <xs:element name="figure" type="figure"/>
+         <xs:element name="namePart" type="namePart"/>
+      </xs:choice>
+      <xs:attributeGroup ref="standardAttrs"/>
+      <xs:attribute name="type"/>
    </xs:complexType>
    <xs:attributeGroup name="standardAttrs">
       <xs:attribute name="id" type="xs:ID"/>
