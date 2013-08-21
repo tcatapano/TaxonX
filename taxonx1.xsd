@@ -126,25 +126,48 @@
    added http://rs.tdwg.org/UBIF/2006/Schema/1.1 to permitted namespaces in xmldata
    
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.taxonx.org/schema/v1" xmlns:dc="http://digir.net/schema/conceptual/darwin/core/1.0" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:dwcranks="http://rs.tdwg.org/UBIF/2006/Schema/1.1" targetNamespace="http://www.taxonx.org/schema/v1" elementFormDefault="qualified">
-   <xs:import namespace="http://www.loc.gov/mods/v3" schemaLocation="http://www.loc.gov/standards/mods/v3/mods-3-1.xsd"/>
-   <xs:import namespace="http://digir.net/schema/conceptual/darwin/2003/1.0" schemaLocation="http://digir.net/schema/conceptual/darwin/manis/1.21/darwin2.xsd"/>
-   <xs:import namespace="http://rs.tdwg.org/UBIF/2006/Schema/1.1" schemaLocation="http://rs.tdwg.org/UBIF/2006/Schema/1.1/DarwinCoreAdditionalTaxonRanks.xsd"/>
+<!-- TC
+   version 1.2.5
+   2013-08-21
+   
+   Added annotation/documentation sections with element definitions
+   
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.taxonx.org/schema/v1"
+   xmlns:dc="http://digir.net/schema/conceptual/darwin/core/1.0"
+   xmlns:mods="http://www.loc.gov/mods/v3" xmlns:dwcranks="http://rs.tdwg.org/UBIF/2006/Schema/1.1"
+   targetNamespace="http://www.taxonx.org/schema/v1" elementFormDefault="qualified">
+   <xs:import namespace="http://www.loc.gov/mods/v3"
+      schemaLocation="http://www.loc.gov/standards/mods/v3/mods-3-1.xsd"/>
+   <xs:import namespace="http://digir.net/schema/conceptual/darwin/2003/1.0"
+      schemaLocation="http://digir.net/schema/conceptual/darwin/manis/1.21/darwin2.xsd"/>
+   <xs:import namespace="http://rs.tdwg.org/UBIF/2006/Schema/1.1"
+      schemaLocation="http://rs.tdwg.org/UBIF/2006/Schema/1.1/DarwinCoreAdditionalTaxonRanks.xsd"/>
    <xs:element name="taxonx">
+      <xs:annotation>
+         <xs:documentation>taxonx: The root element of a taxonX instance</xs:documentation>
+      </xs:annotation>
       <xs:complexType>
-         
-      <xs:sequence>
-         <xs:element name="taxonxHeader" type="taxonxHeader"/>
-         <xs:element name="taxonxBody" type="taxonxBody"/>
-      </xs:sequence>
+         <xs:sequence>
+            <xs:element name="taxonxHeader" type="taxonxHeader"/>
+            <xs:element name="taxonxBody" type="taxonxBody"/>
+         </xs:sequence>
       </xs:complexType>
    </xs:element>
    <xs:complexType name="taxonxHeader">
+      <xs:annotation>
+         <xs:documentation>taxonxHeader: Metadata describing the taxonx document itself and it's
+            source. Elements from the MODS schema are used. </xs:documentation>
+      </xs:annotation>
       <xs:choice>
          <xs:any namespace="http://www.loc.gov/mods/v3"/>
       </xs:choice>
    </xs:complexType>
    <xs:complexType name="taxonxBody">
+      <xs:annotation>
+         <xs:documentation>taxonxBody: A wrapper element enclosing the text proper of a transcribed
+            source document. </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="div" type="div"/>
          <xs:element name="p" type="p"/>
@@ -158,6 +181,10 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="citation" mixed="true">
+      <xs:annotation>
+         <xs:documentation>citation: A reference to a treatment, publication, or part of a
+            publication containing the description of a taxon. </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="xmldata" type="xmldata"/>
          <xs:element name="xid" type="xid"/>
@@ -172,6 +199,15 @@
       <xs:attribute name="type" type="xs:string" use="optional"/>
    </xs:complexType>
    <xs:complexType name="div">
+      <xs:annotation>
+         <xs:documentation>div: A textual division or section of a document. Based on the Text
+            Encoding Initiative element "div". The type of division may be specified using the type
+            attribute, with one of the following values: abstract, acknowledgments, biology_ecology,
+            description, diagnosis, discussion, distribution, etymology, key, introduction,
+            materials_examined, materials_methods, multiple, synopsis, other. If the value "other"
+            is used, use the "othertype" attribute to to specify another div type value.
+         </xs:documentation>
+      </xs:annotation>
       <xs:sequence maxOccurs="1">
          <xs:element name="head" type="head" maxOccurs="1" minOccurs="0"/>
          <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -206,6 +242,10 @@
       <xs:attribute name="otherType" use="optional"/>
    </xs:complexType>
    <xs:complexType name="head" mixed="true">
+      <xs:annotation>
+         <xs:documentation>head: A heading of a textual section or division. Based on the Text
+            Encoding Initiative element "head" </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="author" type="name"/>
          <xs:element name="note" type="note"/>
@@ -217,6 +257,9 @@
       <xs:attribute name="type" type="xs:string" use="optional"/>
    </xs:complexType>
    <xs:complexType name="name" mixed="true">
+      <xs:annotation>
+         <xs:documentation>name: The name of a taxon. Scientific name. </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="xmldata" type="xmldata"/>
          <xs:element name="xid" type="xid"/>
@@ -227,6 +270,11 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="note" mixed="true">
+      <xs:annotation>
+         <xs:documentation>note: A textual note or annotation to the text of the document; often a
+            footnote or endnote. Based on the Text Encoding Initiative element "note"
+         </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element ref="treatment"/>
          <xs:element name="note" type="note"/>
@@ -240,6 +288,10 @@
       <xs:attribute name="type" type="xs:string"/>
    </xs:complexType>
    <xs:complexType name="p" mixed="true">
+      <xs:annotation>
+         <xs:documentation>p: A paragraph. Based on the Text Encoding Initiative element "p"
+         </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="collection_event" type="collection_event"/>
          <xs:element name="locality" type="locality"/>
@@ -256,6 +308,11 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="ref_group">
+      <xs:annotation>
+         <xs:documentation>ref_group: A wrapper element used to encode a reference list or other
+            grouping of bibiographic references, often occurring at the end of a publication.
+         </xs:documentation>
+      </xs:annotation>
       <xs:sequence maxOccurs="1">
          <xs:element name="head" type="head" maxOccurs="1" minOccurs="0"/>
          <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -270,6 +327,12 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="nomenclature" mixed="true">
+      <xs:annotation>
+         <xs:documentation>nomenclature: The heading of a taxonomic treatment, containing the
+            scientific name of the taxon described by the treatment, and possibly the authority for
+            the taxon, citations to previous descriptions, designations of type-genus, and
+            type-species, and other information </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="author" type="name"/>
          <xs:element name="citation" type="citation"/>
@@ -302,8 +365,16 @@
          <xs:element name="author" type="name"/>
       </xs:sequence>
    </xs:complexType>
-   <xs:complexType name="type_loc"/>
+   <xs:complexType name="type_loc">
+      <xs:annotation>
+         <xs:documentation>type_loc: Text or data relating the type locality. </xs:documentation>
+      </xs:annotation>
+   </xs:complexType>
    <xs:complexType name="year" mixed="true">
+      <xs:annotation>
+         <xs:documentation>year: The year of publication of a work or of the naming of a taxon
+         </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="pb" type="pb"/>
          <xs:element name="figure" type="figure"/>
@@ -311,6 +382,11 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="seg" mixed="true">
+      <xs:annotation>
+         <xs:documentation>seg: A segment of text, below the paragraph level. Based on the Text
+            Encoding Initiative element "seg" The type attribute may be used to specify the nature
+            of the textual segment. </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="character" type="character"/>
          <xs:element name="collection_event" type="collection_event"/>
@@ -338,48 +414,57 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="xmldata">
-      <xs:choice maxOccurs="unbounded">            
-         <xs:any namespace="http://digir.net/schema/conceptual/darwin/2003/1.0 http://rs.tdwg.org/UBIF/2006/Schema/1.1"/>
+      <xs:choice maxOccurs="unbounded">
+         <xs:any
+            namespace="http://digir.net/schema/conceptual/darwin/2003/1.0 http://rs.tdwg.org/UBIF/2006/Schema/1.1"
+         />
       </xs:choice>
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
 
-      <xs:element name="treatment">
-         <xs:complexType>
-            <xs:sequence maxOccurs="1">
-               <xs:element name="taxonxHeader" type="taxonxHeader" maxOccurs="1" minOccurs="0"/>
-               <xs:element name="head" type="head" maxOccurs="1" minOccurs="0"/>
-               <xs:choice maxOccurs="unbounded">
-                  <xs:element name="nomenclature" type="nomenclature"/>
-                  <xs:element name="div" type="div"/>
-                  <xs:element name="ref_group" type="ref_group"/>
-                  <xs:element name="pb" type="pb"/>
-                  <xs:element name="figure" type="figure"/>
-                  <xs:element ref="treatment"/>
-               </xs:choice>
-            </xs:sequence>
-            <xs:attributeGroup ref="standardAttrs"/>
-            <xs:attribute name="rank" use="optional">
-               <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                     <xs:enumeration value="order"/>
-                     <xs:enumeration value="family"/>
-                     <xs:enumeration value="species"/>
-                     <xs:enumeration value="genus"/>
-                     <xs:enumeration value="subspecies"/>
-                     <xs:enumeration value="superfamily"/>
-                     <xs:enumeration value="suborder"/>
-                     <xs:enumeration value="subfamily"/>
-                     <xs:enumeration value="infrasubspecific"/>
-                     <xs:enumeration value="other"/>
-                  </xs:restriction>
-               </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="other_rank" use="optional" type="xs:string">
-            </xs:attribute>
-         </xs:complexType>
-      </xs:element>
+   <xs:element name="treatment">
+      <xs:annotation>
+         <xs:documentation> A publication or section of a publication documenting the features or
+            distribution of a related group of organisms (called a “taxon”, plural “taxa”) in ways
+            adhering to highly formalized conventions.</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:sequence maxOccurs="1">
+            <xs:element name="taxonxHeader" type="taxonxHeader" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="head" type="head" maxOccurs="1" minOccurs="0"/>
+            <xs:choice maxOccurs="unbounded">
+               <xs:element name="nomenclature" type="nomenclature"/>
+               <xs:element name="div" type="div"/>
+               <xs:element name="ref_group" type="ref_group"/>
+               <xs:element name="pb" type="pb"/>
+               <xs:element name="figure" type="figure"/>
+               <xs:element ref="treatment"/>
+            </xs:choice>
+         </xs:sequence>
+         <xs:attributeGroup ref="standardAttrs"/>
+         <xs:attribute name="rank" use="optional">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:enumeration value="order"/>
+                  <xs:enumeration value="family"/>
+                  <xs:enumeration value="species"/>
+                  <xs:enumeration value="genus"/>
+                  <xs:enumeration value="subspecies"/>
+                  <xs:enumeration value="superfamily"/>
+                  <xs:enumeration value="suborder"/>
+                  <xs:enumeration value="subfamily"/>
+                  <xs:enumeration value="infrasubspecific"/>
+                  <xs:enumeration value="other"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:attribute>
+         <xs:attribute name="other_rank" use="optional" type="xs:string"> </xs:attribute>
+      </xs:complexType>
+   </xs:element>
    <xs:complexType name="character" mixed="true">
+      <xs:annotation>
+         <xs:documentation>character: a morphological character </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="xid" type="xid"/>
          <xs:element name="xmldata" type="xmldata"/>
@@ -396,6 +481,10 @@
       </xs:attribute>
    </xs:complexType>
    <xs:complexType name="collection_event" mixed="true">
+      <xs:annotation>
+         <xs:documentation>collection_event: Text or data relating to the collection of specimens
+            used as the basis for a taxonomic treatment </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="locality" type="locality"/>
          <xs:element name="type" type="type"/>
@@ -409,6 +498,10 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="state" mixed="true">
+      <xs:annotation>
+         <xs:documentation>state: A term or terms modifying or describing a morphological character.
+         </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="xid" type="xid"/>
          <xs:element name="xmldata" type="xmldata"/>
@@ -418,6 +511,10 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="locality" mixed="true">
+      <xs:annotation>
+         <xs:documentation>locality: Text or data relating to the geographic location where material
+            or specimens were collected. </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="xid" type="xid"/>
          <xs:element name="xmldata" type="xmldata"/>
@@ -427,6 +524,9 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="xid" mixed="true">
+      <xs:annotation>
+         <xs:documentation>xid: An external identifier. </xs:documentation>
+      </xs:annotation>
       <xs:attributeGroup ref="standardAttrs"/>
       <xs:attribute name="identifier"/>
       <xs:attribute name="source"/>
@@ -434,6 +534,10 @@
       <xs:attribute name="uri" type="xs:anyURI"/>
    </xs:complexType>
    <xs:complexType name="statement" mixed="true">
+      <xs:annotation>
+         <xs:documentation>statement: Text or data, often containing a character and a state,
+            describing the morphological features or traits of a taxon. </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="character" type="character"/>
          <xs:element name="pb" type="pb"/>
@@ -442,6 +546,10 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="figures" mixed="true">
+      <xs:annotation>
+         <xs:documentation>figures: A reference from a nomenclature section to figures related to
+            the described species. </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="figure" type="figure"/>
          <xs:element name="pb" type="pb"/>
@@ -449,10 +557,18 @@
       <xs:attributeGroup ref="standardAttrs"/>
    </xs:complexType>
    <xs:complexType name="pb">
+      <xs:annotation>
+         <xs:documentation>pb: An empty element used to indicate the presence of a page break in the
+            source document. Based on the Text Encoding Initiative element "pb" </xs:documentation>
+      </xs:annotation>
       <xs:attributeGroup ref="standardAttrs"/>
       <xs:attribute name="url" type="xs:anyURI" use="optional"/>
    </xs:complexType>
    <xs:complexType name="figure">
+      <xs:annotation>
+         <xs:documentation>figure: Marks the position of a graphic in a document and any text
+            associated or describing it. </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="figDesc">
             <xs:complexType mixed="true">
@@ -472,6 +588,10 @@
       <xs:attribute name="url" type="xs:anyURI" use="optional"/>
    </xs:complexType>
    <xs:complexType name="bibref" mixed="true">
+      <xs:annotation>
+         <xs:documentation>A bibliographic reference, often found in reference lists or lists of
+            works cited.</xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="xmldata" type="xmldata"/>
          <xs:element name="xid" type="xid"/>
@@ -483,6 +603,10 @@
       <xs:attribute name="type" type="xs:string" use="optional"/>
    </xs:complexType>
    <xs:complexType name="title" mixed="true">
+      <xs:annotation>
+         <xs:documentation>title: A title of a bibliographic entity or other
+            work.</xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="xmldata" type="xmldata"/>
          <xs:element name="xid" type="xid"/>
@@ -494,6 +618,11 @@
       <xs:attribute name="type" type="xs:string" use="optional"/>
    </xs:complexType>
    <xs:complexType name="namePart" mixed="true">
+      <xs:annotation>
+         <xs:documentation>namePart: A part of a the name of a taxon; use the type attribute to
+            specify the type of name part, which may be a string (e.g., "specific epithet") or a uri
+            (e.g., http://rs.tdwg.org/dwc/terms/specificEpithet) </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element name="xmldata" type="xmldata"/>
          <xs:element name="xid" type="xid"/>

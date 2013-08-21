@@ -1,0 +1,2613 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for xlink.xsd</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_xlink.xsd', 
+				'properties_simpleLink_type', 
+				'properties_href', 
+				'properties_role', 
+				'properties_arcrole', 
+				'properties_http___www.w3.org_1999_xlink_title', 
+				'properties_show', 
+				'properties_actuate', 
+				'properties_label', 
+				'properties_from', 
+				'properties_to', 
+				'properties_extendedLink_type', 
+				'properties_locatorLink_type', 
+				'properties_arcLink_type', 
+				'properties_resourceLink_type', 
+				'properties_titleLink_type', 
+				'properties_emptyLink_type');
+
+        
+        var facetsBoxes= new Array('facets_show', 
+				'facets_actuate');
+
+        var usedByBoxes= new Array('usedBy_simpleLink_type', 
+				'usedBy_href', 
+				'usedBy_role', 
+				'usedBy_arcrole', 
+				'usedBy_http___www.w3.org_1999_xlink_title', 
+				'usedBy_show', 
+				'usedBy_actuate', 
+				'usedBy_label', 
+				'usedBy_from', 
+				'usedBy_to', 
+				'usedBy_extendedLink_type', 
+				'usedBy_locatorLink_type', 
+				'usedBy_arcLink_type', 
+				'usedBy_resourceLink_type', 
+				'usedBy_titleLink_type', 
+				'usedBy_emptyLink_type', 
+				'usedBy_simpleLink');
+
+        var sourceBoxes= new Array('source_simpleLink_type', 
+				'source_href', 
+				'source_role', 
+				'source_arcrole', 
+				'source_http___www.w3.org_1999_xlink_title', 
+				'source_show', 
+				'source_actuate', 
+				'source_label', 
+				'source_from', 
+				'source_to', 
+				'source_extendedLink_type', 
+				'source_locatorLink_type', 
+				'source_arcLink_type', 
+				'source_resourceLink_type', 
+				'source_titleLink_type', 
+				'source_emptyLink_type', 
+				'source_simpleLink', 
+				'source_extendedLink', 
+				'source_locatorLink', 
+				'source_arcLink', 
+				'source_resourceLink', 
+				'source_titleLink', 
+				'source_emptyLink');
+
+        
+        var diagramBoxes= new Array('diagram_simpleLink', 
+				'diagram_extendedLink', 
+				'diagram_locatorLink', 
+				'diagram_arcLink', 
+				'diagram_resourceLink', 
+				'diagram_titleLink', 
+				'diagram_emptyLink');
+
+        
+        var attributesBoxes= new Array('attributes_simpleLink', 
+				'attributes_extendedLink', 
+				'attributes_locatorLink', 
+				'attributes_arcLink', 
+				'attributes_resourceLink', 
+				'attributes_titleLink', 
+				'attributes_emptyLink');
+
+        
+        
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, facetsBoxes);" class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="xlink.xsd"></a><div class="componentTitle">Imported schema <span class="qname">xlink.xsd</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_xlink.xsd" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_xlink.xsd');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_xlink.xsd" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">attribute form default</td>
+                                    <td><b>unqualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">element form default</td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="simpleLink_type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="xlink_xsd.html#simpleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:simpleLink</a></b> / @xlink:type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_simpleLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_simpleLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_simpleLink_type" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">fixed</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_simpleLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_simpleLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_simpleLink_type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="xlink_xsd.html#simpleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:simpleLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_simpleLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_simpleLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_simpleLink_type" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"simple"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="href"></a><div class="componentTitle">Attribute <span class="qname">@xlink:href</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>anyURI</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_href" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_href');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_href" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_href" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_href');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_href" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Groups </td>
+                                    <td><b><a href="xlink_xsd.html#locatorLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:locatorLink</a></b>, <b><a href="xlink_xsd.html#simpleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:simpleLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_href" type="image" src="img/btM.gif" value="-" onclick="switchState('source_href');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_href" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"href"</span><span class="tAN"> type=</span><span class="tAV">"anyURI"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="role"></a><div class="componentTitle">Attribute <span class="qname">@xlink:role</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_role" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_role');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_role" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_role" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_role');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_role" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Groups </td>
+                                    <td><b><a href="xlink_xsd.html#extendedLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:extendedLink</a></b>, <b><a href="xlink_xsd.html#locatorLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:locatorLink</a></b>, <b><a href="xlink_xsd.html#resourceLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:resourceLink</a></b>, <b><a href="xlink_xsd.html#simpleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:simpleLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_role" type="image" src="img/btM.gif" value="-" onclick="switchState('source_role');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_role" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"role"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="arcrole"></a><div class="componentTitle">Attribute <span class="qname">@xlink:arcrole</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_arcrole" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_arcrole');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_arcrole" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_arcrole" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_arcrole');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_arcrole" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Groups </td>
+                                    <td><b><a href="xlink_xsd.html#arcLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcLink</a></b>, <b><a href="xlink_xsd.html#simpleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:simpleLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_arcrole" type="image" src="img/btM.gif" value="-" onclick="switchState('source_arcrole');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_arcrole" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"arcrole"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="http___www.w3.org_1999_xlink_title"></a><div class="componentTitle">Attribute <span class="qname">@xlink:title</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_http___www.w3.org_1999_xlink_title" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_http___www.w3.org_1999_xlink_title');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_http___www.w3.org_1999_xlink_title" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_http___www.w3.org_1999_xlink_title" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_http___www.w3.org_1999_xlink_title');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_http___www.w3.org_1999_xlink_title" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Groups </td>
+                                    <td><b><a href="xlink_xsd.html#arcLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcLink</a></b>, <b><a href="xlink_xsd.html#extendedLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:extendedLink</a></b>, <b><a href="xlink_xsd.html#locatorLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:locatorLink</a></b>, <b><a href="xlink_xsd.html#resourceLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:resourceLink</a></b>, <b><a href="xlink_xsd.html#simpleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:simpleLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_http___www.w3.org_1999_xlink_title" type="image" src="img/btM.gif" value="-" onclick="switchState('source_http___www.w3.org_1999_xlink_title');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_http___www.w3.org_1999_xlink_title" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"title"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="show"></a><div class="componentTitle">Attribute <span class="qname">@xlink:show</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_show" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_show');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_show" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_show" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_show');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_show" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>new</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>replace</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>embed</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>none</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_show" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_show');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_show" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Groups </td>
+                                    <td><b><a href="xlink_xsd.html#arcLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcLink</a></b>, <b><a href="xlink_xsd.html#simpleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:simpleLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_show" type="image" src="img/btM.gif" value="-" onclick="switchState('source_show');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_show" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"show"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;simpleType</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;restriction</span><span class="tAN"> base=</span><span class="tAV">"string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"new"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"replace"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"embed"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"other"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"none"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/restriction&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/simpleType&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="actuate"></a><div class="componentTitle">Attribute <span class="qname">@xlink:actuate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_actuate" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_actuate');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_actuate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_actuate" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_actuate');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_actuate" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>onLoad</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>onRequest</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>other</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>none</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_actuate" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_actuate');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_actuate" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Groups </td>
+                                    <td><b><a href="xlink_xsd.html#arcLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcLink</a></b>, <b><a href="xlink_xsd.html#simpleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:simpleLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_actuate" type="image" src="img/btM.gif" value="-" onclick="switchState('source_actuate');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_actuate" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"actuate"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;simpleType</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;restriction</span><span class="tAN"> base=</span><span class="tAV">"string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"onLoad"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"onRequest"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"other"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;enumeration</span><span class="tAN"> value=</span><span class="tAV">"none"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/restriction&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/simpleType&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="label"></a><div class="componentTitle">Attribute <span class="qname">@xlink:label</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_label" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_label');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_label" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_label" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_label');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_label" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Groups </td>
+                                    <td><b><a href="xlink_xsd.html#locatorLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:locatorLink</a></b>, <b><a href="xlink_xsd.html#resourceLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:resourceLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_label" type="image" src="img/btM.gif" value="-" onclick="switchState('source_label');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_label" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"label"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="from"></a><div class="componentTitle">Attribute <span class="qname">@xlink:from</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_from" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_from');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_from" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_from" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_from');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_from" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="xlink_xsd.html#arcLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_from" type="image" src="img/btM.gif" value="-" onclick="switchState('source_from');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_from" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"from"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="to"></a><div class="componentTitle">Attribute <span class="qname">@xlink:to</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_to" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_to');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_to" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_to" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_to');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_to" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="xlink_xsd.html#arcLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_to" type="image" src="img/btM.gif" value="-" onclick="switchState('source_to');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_to" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"to"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="extendedLink_type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="xlink_xsd.html#extendedLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:extendedLink</a></b> / @xlink:type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_extendedLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_extendedLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_extendedLink_type" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">fixed</td>
+                                    <td><b>extended</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_extendedLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_extendedLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_extendedLink_type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="xlink_xsd.html#extendedLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:extendedLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_extendedLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_extendedLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_extendedLink_type" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"extended"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="locatorLink_type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="xlink_xsd.html#locatorLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:locatorLink</a></b> / @xlink:type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_locatorLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_locatorLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_locatorLink_type" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">fixed</td>
+                                    <td><b>locator</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_locatorLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_locatorLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_locatorLink_type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="xlink_xsd.html#locatorLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:locatorLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_locatorLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_locatorLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_locatorLink_type" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"locator"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="arcLink_type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="xlink_xsd.html#arcLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcLink</a></b> / @xlink:type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_arcLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_arcLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_arcLink_type" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">fixed</td>
+                                    <td><b>arc</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_arcLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_arcLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_arcLink_type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="xlink_xsd.html#arcLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_arcLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_arcLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_arcLink_type" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"arc"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="resourceLink_type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="xlink_xsd.html#resourceLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:resourceLink</a></b> / @xlink:type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_resourceLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_resourceLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_resourceLink_type" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">fixed</td>
+                                    <td><b>resource</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_resourceLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_resourceLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_resourceLink_type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="xlink_xsd.html#resourceLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:resourceLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_resourceLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_resourceLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_resourceLink_type" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"resource"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="titleLink_type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="xlink_xsd.html#titleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:titleLink</a></b> / @xlink:type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_titleLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_titleLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_titleLink_type" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">fixed</td>
+                                    <td><b>title</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_titleLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_titleLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_titleLink_type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="xlink_xsd.html#titleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:titleLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_titleLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_titleLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_titleLink_type" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"title"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="emptyLink_type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="xlink_xsd.html#emptyLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:emptyLink</a></b> / @xlink:type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_emptyLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_emptyLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_emptyLink_type" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">fixed</td>
+                                    <td><b>none</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_emptyLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_emptyLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_emptyLink_type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="xlink_xsd.html#emptyLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:emptyLink</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_emptyLink_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_emptyLink_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_emptyLink_type" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"none"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="simpleLink"></a><div class="componentTitle">Attribute Group <span class="qname">xlink:simpleLink</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_simpleLink" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_simpleLink');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_simpleLink" style="display:block"><img alt="Diagram" border="0" src="img/xlink_xsd_Attribute_Group_xlink_simpleLink.jpeg" usemap="#xlink_xsd_Attribute_Group_xlink_simpleLink" /><map name="xlink_xsd_Attribute_Group_xlink_simpleLink" id="xlink_xsd_Attribute_Group_xlink_simpleLink">
+                                 <area alt="xlink_xsd.tmp#simpleLink_type" href="xlink_xsd.html#simpleLink_type" coords="140,0,211,24" />
+                                 <area alt="xlink_xsd.tmp#href" href="xlink_xsd.html#href" coords="140,34,239,58" />
+                                 <area alt="xlink_xsd.tmp#role" href="xlink_xsd.html#role" coords="140,68,238,92" />
+                                 <area alt="xlink_xsd.tmp#arcrole" href="xlink_xsd.html#arcrole" coords="140,102,255,126" />
+                                 <area alt="xlink_xsd.tmp#http___www.w3.org_1999_xlink_title" href="xlink_xsd.html#http___www.w3.org_1999_xlink_title" coords="140,136,237,160" />
+                                 <area alt="xlink_xsd.tmp#show" href="xlink_xsd.html#show" coords="140,170,245,194" />
+                                 <area alt="xlink_xsd.tmp#actuate" href="xlink_xsd.html#actuate" coords="140,204,256,228" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_simpleLink" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_simpleLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_simpleLink" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Complex Types </td>
+                                    <td><b><a href="mods-3-1_xsd.html#baseTitleInfoType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">baseTitleInfoType</a></b>, <b><a href="mods-3-1_xsd.html#nameType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">nameType</a></b>, <b><a href="mods-3-1_xsd.html#relatedItemType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">relatedItemType</a></b>, <b><a href="mods-3-1_xsd.html#subjectType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">subjectType</a></b>, <b><a href="mods-3-1_xsd.html#unstructuredText" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">unstructuredText</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_simpleLink" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_simpleLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_simpleLink" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Fixed</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#actuate" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:actuate</a></b></td>
+                                    <td>restriction of <b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#arcrole" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcrole</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#href" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:href</a></b></td>
+                                    <td><b>anyURI</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#role" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:role</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#show" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:show</a></b></td>
+                                    <td>restriction of <b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#http___www.w3.org_1999_xlink_title" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:title</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#simpleLink_type" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:type</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td>simple</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_simpleLink" type="image" src="img/btM.gif" value="-" onclick="switchState('source_simpleLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_simpleLink" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"simpleLink"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"simple"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:href"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:role"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:arcrole"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:title"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:show"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:actuate"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/attributeGroup&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="extendedLink"></a><div class="componentTitle">Attribute Group <span class="qname">xlink:extendedLink</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_extendedLink" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_extendedLink');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_extendedLink" style="display:block"><img alt="Diagram" border="0" src="img/xlink_xsd_Attribute_Group_xlink_extendedLink.jpeg" usemap="#xlink_xsd_Attribute_Group_xlink_extendedLink" /><map name="xlink_xsd_Attribute_Group_xlink_extendedLink" id="xlink_xsd_Attribute_Group_xlink_extendedLink">
+                                 <area alt="xlink_xsd.tmp#extendedLink_type" href="xlink_xsd.html#extendedLink_type" coords="155,0,226,24" />
+                                 <area alt="xlink_xsd.tmp#role" href="xlink_xsd.html#role" coords="155,34,253,58" />
+                                 <area alt="xlink_xsd.tmp#http___www.w3.org_1999_xlink_title" href="xlink_xsd.html#http___www.w3.org_1999_xlink_title" coords="155,68,252,92" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_extendedLink" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_extendedLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_extendedLink" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Fixed</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#role" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:role</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#http___www.w3.org_1999_xlink_title" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:title</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#extendedLink_type" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:type</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td>extended</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_extendedLink" type="image" src="img/btM.gif" value="-" onclick="switchState('source_extendedLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_extendedLink" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"extendedLink"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"extended"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:role"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:title"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/attributeGroup&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="locatorLink"></a><div class="componentTitle">Attribute Group <span class="qname">xlink:locatorLink</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_locatorLink" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_locatorLink');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_locatorLink" style="display:block"><img alt="Diagram" border="0" src="img/xlink_xsd_Attribute_Group_xlink_locatorLink.jpeg" usemap="#xlink_xsd_Attribute_Group_xlink_locatorLink" /><map name="xlink_xsd_Attribute_Group_xlink_locatorLink" id="xlink_xsd_Attribute_Group_xlink_locatorLink">
+                                 <area alt="xlink_xsd.tmp#locatorLink_type" href="xlink_xsd.html#locatorLink_type" coords="143,0,214,24" />
+                                 <area alt="xlink_xsd.tmp#href" href="xlink_xsd.html#href" coords="143,34,242,58" />
+                                 <area alt="xlink_xsd.tmp#role" href="xlink_xsd.html#role" coords="143,68,241,92" />
+                                 <area alt="xlink_xsd.tmp#http___www.w3.org_1999_xlink_title" href="xlink_xsd.html#http___www.w3.org_1999_xlink_title" coords="143,102,240,126" />
+                                 <area alt="xlink_xsd.tmp#label" href="xlink_xsd.html#label" coords="143,136,245,160" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_locatorLink" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_locatorLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_locatorLink" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Fixed</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#href" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:href</a></b></td>
+                                    <td><b>anyURI</b></td>
+                                    <td></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#label" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:label</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#role" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:role</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#http___www.w3.org_1999_xlink_title" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:title</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#locatorLink_type" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:type</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td>locator</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_locatorLink" type="image" src="img/btM.gif" value="-" onclick="switchState('source_locatorLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_locatorLink" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"locatorLink"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"locator"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:href"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:role"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:title"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:label"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/attributeGroup&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="arcLink"></a><div class="componentTitle">Attribute Group <span class="qname">xlink:arcLink</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_arcLink" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_arcLink');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_arcLink" style="display:block"><img alt="Diagram" border="0" src="img/xlink_xsd_Attribute_Group_xlink_arcLink.jpeg" usemap="#xlink_xsd_Attribute_Group_xlink_arcLink" /><map name="xlink_xsd_Attribute_Group_xlink_arcLink" id="xlink_xsd_Attribute_Group_xlink_arcLink">
+                                 <area alt="xlink_xsd.tmp#arcLink_type" href="xlink_xsd.html#arcLink_type" coords="122,0,193,24" />
+                                 <area alt="xlink_xsd.tmp#arcrole" href="xlink_xsd.html#arcrole" coords="122,34,237,58" />
+                                 <area alt="xlink_xsd.tmp#http___www.w3.org_1999_xlink_title" href="xlink_xsd.html#http___www.w3.org_1999_xlink_title" coords="122,68,219,92" />
+                                 <area alt="xlink_xsd.tmp#show" href="xlink_xsd.html#show" coords="122,102,227,126" />
+                                 <area alt="xlink_xsd.tmp#actuate" href="xlink_xsd.html#actuate" coords="122,136,238,160" />
+                                 <area alt="xlink_xsd.tmp#from" href="xlink_xsd.html#from" coords="122,170,225,194" />
+                                 <area alt="xlink_xsd.tmp#to" href="xlink_xsd.html#to" coords="122,204,210,228" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_arcLink" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_arcLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_arcLink" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Fixed</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#actuate" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:actuate</a></b></td>
+                                    <td>restriction of <b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#arcrole" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcrole</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#from" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:from</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#show" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:show</a></b></td>
+                                    <td>restriction of <b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#http___www.w3.org_1999_xlink_title" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:title</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#to" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:to</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#arcLink_type" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:type</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td>arc</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_arcLink" type="image" src="img/btM.gif" value="-" onclick="switchState('source_arcLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_arcLink" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"arcLink"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"arc"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:arcrole"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:title"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:show"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:actuate"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:from"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:to"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/attributeGroup&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="resourceLink"></a><div class="componentTitle">Attribute Group <span class="qname">xlink:resourceLink</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_resourceLink" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_resourceLink');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_resourceLink" style="display:block"><img alt="Diagram" border="0" src="img/xlink_xsd_Attribute_Group_xlink_resourceLink.jpeg" usemap="#xlink_xsd_Attribute_Group_xlink_resourceLink" /><map name="xlink_xsd_Attribute_Group_xlink_resourceLink" id="xlink_xsd_Attribute_Group_xlink_resourceLink">
+                                 <area alt="xlink_xsd.tmp#resourceLink_type" href="xlink_xsd.html#resourceLink_type" coords="153,0,224,24" />
+                                 <area alt="xlink_xsd.tmp#role" href="xlink_xsd.html#role" coords="153,34,251,58" />
+                                 <area alt="xlink_xsd.tmp#http___www.w3.org_1999_xlink_title" href="xlink_xsd.html#http___www.w3.org_1999_xlink_title" coords="153,68,250,92" />
+                                 <area alt="xlink_xsd.tmp#label" href="xlink_xsd.html#label" coords="153,102,255,126" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_resourceLink" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_resourceLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_resourceLink" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Fixed</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#label" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:label</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#role" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:role</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#http___www.w3.org_1999_xlink_title" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:title</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#resourceLink_type" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:type</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td>resource</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_resourceLink" type="image" src="img/btM.gif" value="-" onclick="switchState('source_resourceLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_resourceLink" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"resourceLink"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"resource"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:role"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:title"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> ref=</span><span class="tAV">"xlink:label"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">/&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/attributeGroup&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="titleLink"></a><div class="componentTitle">Attribute Group <span class="qname">xlink:titleLink</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_titleLink" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_titleLink');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_titleLink" style="display:block"><img alt="Diagram" border="0" src="img/xlink_xsd_Attribute_Group_xlink_titleLink.jpeg" usemap="#xlink_xsd_Attribute_Group_xlink_titleLink" /><map name="xlink_xsd_Attribute_Group_xlink_titleLink" id="xlink_xsd_Attribute_Group_xlink_titleLink">
+                                 <area alt="xlink_xsd.tmp#titleLink_type" href="xlink_xsd.html#titleLink_type" coords="125,1,196,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_titleLink" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_titleLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_titleLink" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Fixed</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#titleLink_type" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:type</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td>title</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_titleLink" type="image" src="img/btM.gif" value="-" onclick="switchState('source_titleLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_titleLink" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"titleLink"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"title"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/attributeGroup&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="emptyLink"></a><div class="componentTitle">Attribute Group <span class="qname">xlink:emptyLink</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1999/xlink</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_emptyLink" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_emptyLink');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_emptyLink" style="display:block"><img alt="Diagram" border="0" src="img/xlink_xsd_Attribute_Group_xlink_emptyLink.jpeg" usemap="#xlink_xsd_Attribute_Group_xlink_emptyLink" /><map name="xlink_xsd_Attribute_Group_xlink_emptyLink" id="xlink_xsd_Attribute_Group_xlink_emptyLink">
+                                 <area alt="xlink_xsd.tmp#emptyLink_type" href="xlink_xsd.html#emptyLink_type" coords="138,1,209,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_emptyLink" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_emptyLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_emptyLink" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Fixed</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd.html#emptyLink_type" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:type</a></b></td>
+                                    <td><b>string</b></td>
+                                    <td>none</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_emptyLink" type="image" src="img/btM.gif" value="-" onclick="switchState('source_emptyLink');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_emptyLink" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"emptyLink"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> type=</span><span class="tAV">"string"</span><span class="tAN"> fixed=</span><span class="tAV">"none"</span><span class="tAN"> form=</span><span class="tAV">"qualified"</span><span class="tEl">/&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/attributeGroup&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Developer.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

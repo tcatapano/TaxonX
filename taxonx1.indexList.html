@@ -1,0 +1,1261 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for </title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <h2><a id="INDEX">Table of Contents</a></h2>
+      <p><a href="taxonx1.indexList.html">Components</a><span> | </span><a href="schHierarchy.html">Resource Hierarchy</a></p>
+      <hr />
+      <div class="toc">
+         <form action="none">
+            <div><span> Group by: <select id="selectTOC" onchange="selectTOCGroupBy(this.options[this.selectedIndex].value, true, 'taxonx1.indexList.html', 'taxonx1.indexListns.html', 'taxonx1.indexListcomp.html');">
+                     <option value="toc_group_by_namespace">Namespace</option>
+                     <option value="toc_group_by_location" selected="selected">Location</option>
+                     <option value="toc_group_by_component_type">Component Type</option></select></span></div>
+         </form>
+         <div class="level1" id="toc_group_by_location" style="display:block">
+            <div>
+               <div class="level2">
+                  <p><input id="button_gr_taxonx1.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_taxonx1.xsd');" class="control" /><span class="indexGroupTitle">taxonx1.xsd</span></p>
+                  <div id="gr_taxonx1.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_taxonx1.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_taxonx1.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_taxonx1.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="taxonx1_xsd.html#taxonx" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">taxonx</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#treatment" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">treatment</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_taxonx1.xsdComplex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_taxonx1.xsdComplex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_taxonx1.xsdComplex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="taxonx1_xsd.html#bibref" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">bibref</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#character" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">character</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#citation" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">citation</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#collection_event" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">collection_event</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#div" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">div</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#figure" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">figure</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#figures" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">figures</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#head" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">head</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#locality" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">locality</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#name" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">name</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#namePart" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">namePart</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#nomenclature" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">nomenclature</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#note" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">note</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#p" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">p</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#pb" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">pb</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#ref_group" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">ref_group</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#seg" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">seg</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#state" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">state</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#statement" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">statement</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#taxonxBody" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">taxonxBody</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#taxonxHeader" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">taxonxHeader</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#title" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">title</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#type" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">type</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#type_loc" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">type_loc</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#xid" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">xid</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#xmldata" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">xmldata</a></b></div>
+                                                <div><b><a href="taxonx1_xsd.html#year" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">year</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_taxonx1.xsdAttribute_Group" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_taxonx1.xsdAttribute_Group');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Attribute Groups</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_taxonx1.xsdAttribute_Group" class="componentGroup" style="display:block">
+                                                <div><b><a href="taxonx1_xsd.html#standardAttrs" target="mainFrame" title="http://www.taxonx.org/schema/v1" onclick="updatePageTitle('Schema documentation for taxonx1.xsd')">standardAttrs</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_mods-3-1.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_mods-3-1.xsd');" class="control" /><span class="indexGroupTitle">mods-3-1.xsd</span></p>
+                  <div id="gr_mods-3-1.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_mods-3-1.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_mods-3-1.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_mods-3-1.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="mods-3-1_xsd.html#mods" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">mods</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#modsCollection" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">modsCollection</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_mods-3-1.xsdComplex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_mods-3-1.xsdComplex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_mods-3-1.xsdComplex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="mods-3-1_xsd.html#abstractType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">abstractType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#accessConditionType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">accessConditionType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#baseDateType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">baseDateType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#baseTitleInfoType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">baseTitleInfoType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#classificationType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">classificationType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#dateOtherType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">dateOtherType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#dateType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">dateType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#detailType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">detailType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#extensionType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">extensionType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#extentType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">extentType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#genreType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">genreType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#hierarchicalGeographicType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">hierarchicalGeographicType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#identifierType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">identifierType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#languageType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">languageType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#locationType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">locationType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#modsType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">modsType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#namePartType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">namePartType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#nameType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">nameType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#noteType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">noteType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#originInfoType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">originInfoType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#partType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">partType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#physicalDescriptionType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">physicalDescriptionType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#placeTermType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">placeTermType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#placeType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">placeType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#recordInfoType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">recordInfoType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#relatedItemType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">relatedItemType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#roleType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">roleType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#sourceType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">sourceType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#subjectType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">subjectType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#tableOfContentsType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">tableOfContentsType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#targetAudienceType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">targetAudienceType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#titleInfoType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">titleInfoType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#typeOfResourceType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">typeOfResourceType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#unstructuredText" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">unstructuredText</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#urlType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">urlType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_mods-3-1.xsdSimple_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_mods-3-1.xsdSimple_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Simple Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_mods-3-1.xsdSimple_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="mods-3-1_xsd.html#codeOrText" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">codeOrText</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#nameTypeAttribute" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">nameTypeAttribute</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#placeAuthority" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">placeAuthority</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#resourceType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">resourceType</a></b></div>
+                                                <div><b><a href="mods-3-1_xsd.html#versionType" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">versionType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_mods-3-1.xsdElement_Group" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_mods-3-1.xsdElement_Group');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Element Groups</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_mods-3-1.xsdElement_Group" class="componentGroup" style="display:block">
+                                                <div><b><a href="mods-3-1_xsd.html#modsGroup" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">modsGroup</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_mods-3-1.xsdAttribute_Group" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_mods-3-1.xsdAttribute_Group');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Attribute Groups</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_mods-3-1.xsdAttribute_Group" class="componentGroup" style="display:block">
+                                                <div><b><a href="mods-3-1_xsd.html#language" target="mainFrame" title="http://www.loc.gov/mods/v3" onclick="updatePageTitle('Schema documentation for mods-3-1.xsd')">language</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_darwin2.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_darwin2.xsd');" class="control" /><span class="indexGroupTitle">darwin2.xsd</span></p>
+                  <div id="gr_darwin2.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_darwin2.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_darwin2.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_darwin2.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="darwin2_xsd.html#AgeClass" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">AgeClass</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#BasisOfRecord" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">BasisOfRecord</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#BoundingBox" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">BoundingBox</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#CatalogNumberNumeric" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">CatalogNumberNumeric</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#CatalogNumberText" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">CatalogNumberText</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Class" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Class</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#CollectionCode" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">CollectionCode</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Collector" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Collector</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#CollectorNumber" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">CollectorNumber</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#ContinentOcean" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">ContinentOcean</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#CoordinateUncertaintyInMeters" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">CoordinateUncertaintyInMeters</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Country" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Country</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#County" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">County</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#DateLastModified" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">DateLastModified</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#DayCollected" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">DayCollected</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#DayIdentified" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">DayIdentified</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#DecimalLatitude" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">DecimalLatitude</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#DecimalLongitude" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">DecimalLongitude</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Family" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Family</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#FieldNotes" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">FieldNotes</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#FieldNumber" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">FieldNumber</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#GenBankNum" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">GenBankNum</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Genus" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Genus</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#GeorefMethod" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">GeorefMethod</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#HigherGeography" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">HigherGeography</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#HigherTaxon" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">HigherTaxon</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#HorizontalDatum" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">HorizontalDatum</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#IdentificationModifier" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">IdentificationModifier</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#IdentifiedBy" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">IdentifiedBy</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#IndividualCount" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">IndividualCount</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#InstitutionCode" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">InstitutionCode</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Island" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Island</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#IslandGroup" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">IslandGroup</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#JulianDay" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">JulianDay</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Kingdom" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Kingdom</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#LatLongComments" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">LatLongComments</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Locality" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Locality</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#MaximumDepthInMeters" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">MaximumDepthInMeters</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#MaximumElevationInMeters" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">MaximumElevationInMeters</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#MinimumDepthInMeters" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">MinimumDepthInMeters</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#MinimumElevationInMeters" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">MinimumElevationInMeters</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#MonthCollected" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">MonthCollected</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#MonthIdentified" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">MonthIdentified</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Order" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Order</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#OriginalCoordinateSystem" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">OriginalCoordinateSystem</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#OtherCatalogNumbers" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">OtherCatalogNumbers</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Phylum" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Phylum</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Preparations" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Preparations</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#RelatedCatalogedItems" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">RelatedCatalogedItems</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Remarks" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Remarks</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#ScientificName" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">ScientificName</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#ScientificNameAuthor" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">ScientificNameAuthor</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Sex" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Sex</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Species" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Species</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#StateProvince" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">StateProvince</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Subspecies" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Subspecies</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#TimeCollected" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">TimeCollected</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#Tissues" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">Tissues</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#TypeStatus" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">TypeStatus</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#VerbatimCollectingDate" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">VerbatimCollectingDate</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#VerbatimDepth" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">VerbatimDepth</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#VerbatimElevation" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">VerbatimElevation</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#VerbatimLatitude" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">VerbatimLatitude</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#VerbatimLongitude" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">VerbatimLongitude</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#YearCollected" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">YearCollected</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#YearIdentified" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">YearIdentified</a></b></div>
+                                                <div><b><a href="darwin2_xsd.html#requiredList" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">requiredList</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_darwin2.xsdComplex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_darwin2.xsdComplex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_darwin2.xsdComplex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="darwin2_xsd.html#list" target="mainFrame" title="http://digir.net/schema/conceptual/darwin/2003/1.0" onclick="updatePageTitle('Schema documentation for darwin2.xsd')">list</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_digir.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_digir.xsd');" class="control" /><span class="indexGroupTitle">digir.xsd</span></p>
+                  <div id="gr_digir.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_digir.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_digir.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_digir.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="digir_xsd.html#COP" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">COP</a></b></div>
+                                                <div><b><a href="digir_xsd.html#LOP" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">LOP</a></b></div>
+                                                <div><b><a href="digir_xsd.html#and" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">and</a></b></div>
+                                                <div><b><a href="digir_xsd.html#andNot" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">andNot</a></b></div>
+                                                <div><b><a href="digir_xsd.html#data" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">data</a></b></div>
+                                                <div><b><a href="digir_xsd.html#equals" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">equals</a></b></div>
+                                                <div><b><a href="digir_xsd.html#greaterThan" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">greaterThan</a></b></div>
+                                                <div><b><a href="digir_xsd.html#greaterThanOrEquals" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">greaterThanOrEquals</a></b></div>
+                                                <div><b><a href="digir_xsd.html#in" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">in</a></b></div>
+                                                <div><b><a href="digir_xsd.html#lessThan" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">lessThan</a></b></div>
+                                                <div><b><a href="digir_xsd.html#lessThanOrEquals" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">lessThanOrEquals</a></b></div>
+                                                <div><b><a href="digir_xsd.html#like" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">like</a></b></div>
+                                                <div><b><a href="digir_xsd.html#metadata" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">metadata</a></b></div>
+                                                <div><b><a href="digir_xsd.html#notEquals" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">notEquals</a></b></div>
+                                                <div><b><a href="digir_xsd.html#or" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">or</a></b></div>
+                                                <div><b><a href="digir_xsd.html#orNot" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">orNot</a></b></div>
+                                                <div><b><a href="digir_xsd.html#request" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">request</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_requiredList" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">requiredList</a></b></div>
+                                                <div><b><a href="digir_xsd.html#response" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">response</a></b></div>
+                                                <div><b><a href="digir_xsd.html#responseWrapper" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">responseWrapper</a></b></div>
+                                                <div><b><a href="digir_xsd.html#returnableData" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">returnableData</a></b></div>
+                                                <div><b><a href="digir_xsd.html#searchableData" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">searchableData</a></b></div>
+                                                <div><b><a href="digir_xsd.html#searchableReturnableData" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">searchableReturnableData</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_digir.xsdComplex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_digir.xsdComplex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_digir.xsdComplex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_COP" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">COP</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_LOP" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">LOP</a></b></div>
+                                                <div><b><a href="digir_xsd.html#MultiCOP" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">MultiCOP</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_and" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">and</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_andNot" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">andNot</a></b></div>
+                                                <div><b><a href="digir_xsd.html#contact" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">contact</a></b></div>
+                                                <div><b><a href="digir_xsd.html#diagnostic" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">diagnostic</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_equals" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">equals</a></b></div>
+                                                <div><b><a href="digir_xsd.html#filter" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">filter</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_greaterThan" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">greaterThan</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_greaterThanOrEquals" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">greaterThanOrEquals</a></b></div>
+                                                <div><b><a href="digir_xsd.html#header" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">header</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_in" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">in</a></b></div>
+                                                <div><b><a href="digir_xsd.html#inventoryOperation" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">inventoryOperation</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_lessThan" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">lessThan</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_lessThanOrEquals" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">lessThanOrEquals</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_like" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">like</a></b></div>
+                                                <div><b><a href="digir_xsd.html#listType" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">listType</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_notEquals" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">notEquals</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_or" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">or</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_orNot" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">orNot</a></b></div>
+                                                <div><b><a href="digir_xsd.html#searchOperation" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">searchOperation</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_digir.xsdSimple_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_digir.xsdSimple_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Simple Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_digir.xsdSimple_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="digir_xsd.html#emailType" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">emailType</a></b></div>
+                                                <div><b><a href="digir_xsd.html#http___digir.net_schema_protocol_2003_1.0_urlType" target="mainFrame" title="http://digir.net/schema/protocol/2003/1.0" onclick="updatePageTitle('Schema documentation for digir.xsd')">urlType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_DarwinCoreAdditionalTaxonRanks.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_DarwinCoreAdditionalTaxonRanks.xsd');" class="control" /><span class="indexGroupTitle">DarwinCoreAdditionalTaxonRanks.xsd</span></p>
+                  <div id="gr_DarwinCoreAdditionalTaxonRanks.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_DarwinCoreAdditionalTaxonRanks.xsdElement" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_DarwinCoreAdditionalTaxonRanks.xsdElement');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_DarwinCoreAdditionalTaxonRanks.xsdElement" class="componentGroup" style="display:block">
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#bioVarietyEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">bioVarietyEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#candidateEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">candidateEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#convarEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">convarEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#cultivarEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">cultivarEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#cultivarGroupEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">cultivarGroupEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#domain" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">domain</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#formEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">formEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#graftChimaeraEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">graftChimaeraEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#infraclass" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">infraclass</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#infrafamily" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">infrafamily</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#infragenus" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">infragenus</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#infrakingdom" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">infrakingdom</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#infraorder" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">infraorder</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#infraspeciesEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">infraspeciesEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#infratribe" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">infratribe</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#pathoVarietyEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">pathoVarietyEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#section" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">section</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#series" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">series</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#specialformEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">specialformEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#speciesAggregate" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">speciesAggregate</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subclass" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subclass</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subfamily" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subfamily</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subformEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subformEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subgenus" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subgenus</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subkingdom" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subkingdom</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#suborder" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">suborder</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subphylum" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subphylum</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subsection" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subsection</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subseries" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subseries</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subspeciesEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subspeciesEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subsubformEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subsubformEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subsubvarietyEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subsubvarietyEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subtribe" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subtribe</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#subvarietyEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">subvarietyEpithet</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#superclass" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">superclass</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#superfamily" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">superfamily</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#superkingdom" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">superkingdom</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#superorder" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">superorder</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#superphylum" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">superphylum</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#supertribe" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">supertribe</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#tribe" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">tribe</a></b></div>
+                                                <div><b><a href="DarwinCoreAdditionalTaxonRanks_xsd.html#varietyEpithet" target="mainFrame" title="http://rs.tdwg.org/UBIF/2006/Schema/1.1" onclick="updatePageTitle('Schema documentation for DarwinCoreAdditionalTaxonRanks.xsd')">varietyEpithet</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_xlink.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_xlink.xsd');" class="control" /><span class="indexGroupTitle">xlink.xsd</span></p>
+                  <div id="gr_xlink.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_xlink.xsdAttribute" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_xlink.xsdAttribute');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Attributes</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_xlink.xsdAttribute" class="componentGroup" style="display:block">
+                                                <div><b><a href="xlink_xsd.html#actuate" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">@xlink:actuate</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#arcrole" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">@xlink:arcrole</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#from" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">@xlink:from</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#href" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">@xlink:href</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#label" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">@xlink:label</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#role" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">@xlink:role</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#show" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">@xlink:show</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#http___www.w3.org_1999_xlink_title" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">@xlink:title</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#to" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">@xlink:to</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_xlink.xsdAttribute_Group" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_xlink.xsdAttribute_Group');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Attribute Groups</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_xlink.xsdAttribute_Group" class="componentGroup" style="display:block">
+                                                <div><b><a href="xlink_xsd.html#arcLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:arcLink</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#emptyLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:emptyLink</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#extendedLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:extendedLink</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#locatorLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:locatorLink</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#resourceLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:resourceLink</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#simpleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:simpleLink</a></b></div>
+                                                <div><b><a href="xlink_xsd.html#titleLink" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for xlink.xsd')">xlink:titleLink</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+               <div class="level2">
+                  <p><input id="button_gr_xml.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_xml.xsd');" class="control" /><span class="indexGroupTitle">xml.xsd</span></p>
+                  <div id="gr_xml.xsd" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_xml.xsdAttribute" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_xml.xsdAttribute');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Attributes</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_xml.xsdAttribute" class="componentGroup" style="display:block">
+                                                <div><b><a href="xml_xsd.html#base" target="mainFrame" title="http://www.w3.org/XML/1998/namespace" onclick="updatePageTitle('Schema documentation for xml.xsd')">@xml:base</a></b></div>
+                                                <div><b><a href="xml_xsd.html#id" target="mainFrame" title="http://www.w3.org/XML/1998/namespace" onclick="updatePageTitle('Schema documentation for xml.xsd')">@xml:id</a></b></div>
+                                                <div><b><a href="xml_xsd.html#lang" target="mainFrame" title="http://www.w3.org/XML/1998/namespace" onclick="updatePageTitle('Schema documentation for xml.xsd')">@xml:lang</a></b></div>
+                                                <div><b><a href="xml_xsd.html#space" target="mainFrame" title="http://www.w3.org/XML/1998/namespace" onclick="updatePageTitle('Schema documentation for xml.xsd')">@xml:space</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_gr_xml.xsdAttribute_Group" type="image" value="-" src="img/btM.gif" onclick="switchState('gr_xml.xsdAttribute_Group');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Attribute Groups</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="gr_xml.xsdAttribute_Group" class="componentGroup" style="display:block">
+                                                <div><b><a href="xml_xsd.html#specialAttrs" target="mainFrame" title="http://www.w3.org/XML/1998/namespace" onclick="updatePageTitle('Schema documentation for xml.xsd')">xml:specialAttrs</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Developer.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>
